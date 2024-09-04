@@ -1,0 +1,36 @@
+<div class="min-h-screen flex">
+  <!-- Image Section -->
+  <div class="w-1/2">
+    <img src="https://img.freepik.com/free-vector/dating-application-concept_23-2148277325.jpg?size=626&ext=jpg&ga=GA1.1.1936490346.1710755613&semt=ais_hybrid" 
+         alt="image" 
+         class="object-cover w-full h-full">
+  </div>
+
+  <!-- Form Section -->
+  <div class="w-1/2 flex items-center justify-center p-8">
+    <form [formGroup]="loginForm" (ngSubmit)="loginDetails()">
+      <p-card header="Login" [style]="{width: '360px' }">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="text" pInputText formControlName="email" class="w-full" name="email" placeholder="Type your email" />
+          <small *ngIf="email.invalid && (email.dirty || email.touched)" class="block p-error">
+            <div *ngIf="email.errors?.['required']">Email is required.</div>
+            <div *ngIf="email.errors?.['email']">Email should be valid</div>
+          </small>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" pInputText formControlName="password" class="w-full" name="password" placeholder="Type your password" />
+          <small *ngIf="password.invalid && (password.dirty || password.touched)" class="block p-error"></small>
+        </div>
+        <p-button label="Sign In" styleClass="w-full" [disabled]="loginForm.invalid" type="submit"></p-button>
+        <div class="mt-2">
+          Not a member? <a routerLink="/userRegister">Register</a>
+        </div>
+        <div class="mt-2">
+          Forgot password? <a routerLink="/forgotpass">New password</a>
+        </div>
+      </p-card>
+    </form>
+  </div>
+</div>
