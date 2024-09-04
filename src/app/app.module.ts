@@ -18,7 +18,7 @@ import { GroupComponent } from './components/group/group.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import {DialogModule} from 'primeng/dialog'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
