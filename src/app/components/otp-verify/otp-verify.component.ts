@@ -46,7 +46,7 @@ export class OtpVerifyComponent implements OnInit{
       (response: any) =>{
         console.log(response)
         this.messageService.add({ severity: 'success',summary: 'Success',detail: response.message})
-        this.router.navigate(['userLogin'])
+        this.router.navigate([''])
         localStorage.removeItem('userData');
       },
       (error:any)=>{

@@ -1,10 +1,12 @@
 
 <div class="min-h-screen flex">
-  <div class="border-half">
-    <img src='./assets/images/Boost your immune system-bro.png' alt="image" class="object-cover w-full h-full">
+  <div class="w-1/2">
+    <img src="https://img.freepik.com/free-vector/dating-application-concept_23-2148277325.jpg?size=626&ext=jpg&ga=GA1.1.1936490346.1710755613&semt=ais_hybrid" 
+    alt="image" 
+    class="object-cover w-full h-full">
   </div> 
 
-  <div class="w-full lg:w-1/2 p-8 flex justify-center mt-48">
+  <div class="w-1/2 flex items-center justify-center p-8">
   <form [formGroup]="registerForm" (ngSubmit)="submitDetails()">
     <p-card header="Register" [style]="{width: '360px' }" >
       <div class="field">
@@ -45,7 +47,7 @@
       </div>
       <p-button label="Register" styleClass="w-full" [disabled]="registerForm.invalid" type="submit"></p-button>
       <div class="mt-2">
-        Already a member?  <a routerLink="/userLogin">Login</a>
+        Already a member?  <a routerLink="">Login</a>
       </div>
   </p-card>
   </form>

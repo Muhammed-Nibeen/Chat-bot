@@ -45,27 +45,52 @@ export class UserHomeComponent implements OnInit{
     private router:Router
 ) { }
   
-     ngOnInit(): void {
-      if (typeof localStorage !== 'undefined') {
-        const userString = localStorage.getItem('user_id');
-        console.log('this is userString',userString);
-        
-        if (userString) {
-            
-            this.senderId = userString
-            console.log('Sender ID:', this.senderId);  // Debugging: Log the senderId
-        } else {
-          console.warn('No user_id found in localStorage');
-        }
+async ngOnInit(): Promise<void> {
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const userString = localStorage.getItem('user_id');
+      console.log('this is userString', userString);
+      
+      if (userString) {
+        this.senderId = userString;
+        console.log('Sender ID:', this.senderId);  // Debugging: Log the senderId
       } else {
-        console.error('localStorage is not available.');
+        console.error('No user_id found in localStorage');
       }
-    
-      this.loadClients();
-      this.loadGroups()
-      this.loadName();
+    } catch (error) {
+      console.error('Error accessing localStorage:', error);
     }
+  } else {
+    console.error('localStorage is not available.');
+  }
 
+  try {
+    await this.loadClients();
+    await this.loadName();
+  } catch (error) {
+    console.error('Error loading data:', error);
+  }
+}
+
+async loadClients(): Promise<void> {
+  try {
+    const response = await this.authService.getClients(this.senderId).toPromise();
+    this.clients = response.clientList;
+    this.joinRoom();
+  } catch (error: any) {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.error });
+  }
+}
+
+async loadName(): Promise<void> {
+  try {
+    const response = await this.authService.loadName(this.senderId).toPromise();
+    this.userName = response.username.fullName;
+    console.log('This is the username', this.userName);
+  } catch (error: any) {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.error });
+  }
+}
     showEmoji(){
       this.showEmojiPicker = !this.showEmojiPicker
     }
@@ -74,35 +99,22 @@ export class UserHomeComponent implements OnInit{
       this.newMessage += event.emoji.native;
     }
 
-    loadName(){
-      this.authService.loadName(this.senderId).subscribe({
-        next:(response:any) =>{
-          this.userName = response.username.fullName
-          console.log('This is the username',this.userName);
-          
-        },
-        error:(error) =>{
-          this.messageService.add({severity:'error',summary:'Error',detail: error.error.error})
-        }
-      })
-    }
+
 
     groupmessage(){
       this.router.navigate(['group'])
     }
 
     onSearch(event: Event) {
-      console.log('onSearch triggered'); // Check if the method is being called
+      
       const keyboardEvent = event as KeyboardEvent;
       if (keyboardEvent.key === 'Enter') {
-        console.log('Enter key pressed'); // Confirm Enter key detection
         const searchTerm = this.searchQuery.trim();
-        console.log(`Searching for: ${searchTerm}`); // Log the search term
         if (searchTerm) {
           this.filteredAppointments = this.clients.filter((appointment) =>
             appointment.name?.toLowerCase().includes(searchTerm.toLowerCase())
           );
-          console.log('Filtered appointments:', this.filteredAppointments); // Log filtered appointments
+
           this.clients = [...this.filteredAppointments]; // Update the Appointment array
         } else {
           this.loadClients(); // Reset to all nutritionists if no search term
@@ -110,16 +122,6 @@ export class UserHomeComponent implements OnInit{
       }
     }
 
-    loadGroups():void{
-      this.authService.getGroups(this.senderId).subscribe({
-        next:(response:any) =>{
-          this.groups = response.groups
-        },
-        error:(error) =>{
-          this.messageService.add({severity:'error',summary:'Error',detail: error.error.error})
-        }
-      })
-    }
 
     ngOnDestroy(): void {
       if (this.messageSubscription) {
@@ -146,11 +148,11 @@ export class UserHomeComponent implements OnInit{
         // Call the backend service to create the group
         this.authService.createGroup(this.senderId, this.newGroupName, this.selectedUserIds).subscribe({
           next: (group: Group) => {
+            this.showGroupForm = false;
             this.groups.push(group);
             this.newGroupName = '';
             this.selectedUserIds = [];
-            console.log(this.groups,'this is the');
-            this.showGroupForm = false;
+            
           },
           error: (error) => {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.error });
@@ -212,19 +214,7 @@ export class UserHomeComponent implements OnInit{
     }
   
     
-    loadClients():void{
-      this.authService.getClients(this.senderId).subscribe({
-        next:(response:any) =>{
-          console.log(response,'this is the res');
-          this.clients = response.clientList
-          this.joinRoom();
-          console.log(this.clients,'this is the clients');
-        },
-        error: (error) => {
-          this.messageService.add({severity:'error',summary:'Error',detail: error.error.error})
-        }
-      })
-    }
+
 
     logout(){
       localStorage.removeItem('user_token');
@@ -255,13 +245,13 @@ export class UserHomeComponent implements OnInit{
     }
 
     private subscribeToMessages() {
-      console.log('entered subscribeToMessages');
+
       if (this.messageSubscription) {
         this.messageSubscription.unsubscribe();
       }
   
       this.messageSubscription = this.chatService.receiveMessage().subscribe((message: any) => {
-        console.log('received message is', message);
+
   
         const formattedMessage = {
           message: message.message,
@@ -274,8 +264,7 @@ export class UserHomeComponent implements OnInit{
           roomId: message.roomId
         };
   
-        console.log('room id from messages is',formattedMessage.roomId);
-        console.log('room id from component is',this.roomId);
+
         
         
   
@@ -346,9 +335,7 @@ export class UserHomeComponent implements OnInit{
     // });
   }
 
-  joinAllRooms(): void {
-
-  }
+  
 
 
   sendMessage() {

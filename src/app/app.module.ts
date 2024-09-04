@@ -7,7 +7,9 @@ import { SignupComponent } from './components/signup/signup.component';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
-import { MessageService,ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { OtpVerifyComponent } from './components/otp-verify/otp-verify.component';
 import { LoginComponent } from './components/login/login.component';
@@ -37,7 +39,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     CommonModule,
     PickerModule,
     DialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MessagesModule,
+    MessageModule
   ],
   providers: [
     provideClientHydration(),
