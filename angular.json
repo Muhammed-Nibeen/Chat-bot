@@ -41,7 +41,7 @@
             ],
             "scripts": [],
             "fileReplacements": [],
-            "es5BrowserSupport": true
+            "es5BrowserSupport": false
           },
           "configurations": {
             "production": {
