@@ -46,31 +46,31 @@ export class UserHomeComponent implements OnInit{
 ) { }
   
 async ngOnInit(): Promise<void> {
-  if (typeof localStorage !== 'undefined') {
-    try {
+  try {
+    if (typeof localStorage !== 'undefined') {
+      await this.initializePage();
+    } else {
+      console.error('localStorage is not available.');
+    }
+  } catch (error) {
+    console.error('Error during initialization:', error);
+  }
+}
+
+    private async initializePage(): Promise<void> {
       const userString = localStorage.getItem('user_id');
-      console.log('this is userString', userString);
+      console.log('User ID:', userString);
       
       if (userString) {
         this.senderId = userString;
-        console.log('Sender ID:', this.senderId);  // Debugging: Log the senderId
+        await Promise.all([
+          this.loadClients(),
+          this.loadName()
+        ]);
       } else {
         console.error('No user_id found in localStorage');
       }
-    } catch (error) {
-      console.error('Error accessing localStorage:', error);
     }
-  } else {
-    console.error('localStorage is not available.');
-  }
-
-  try {
-    await this.loadClients();
-    await this.loadName();
-  } catch (error) {
-    console.error('Error loading data:', error);
-  }
-}
 
 async loadClients(): Promise<void> {
   try {
