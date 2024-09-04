@@ -58,7 +58,7 @@ export class SignupComponent implements OnInit {
       (response: any) => {
         console.log(response);
         this.messageService.add({ severity: 'success', summary: 'Success', detail: response.message });
-        this.router.navigate(['userRegister/verify-otp']);
+        this.router.navigate(['verify-otp']);
       },
       (error: any) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.error });

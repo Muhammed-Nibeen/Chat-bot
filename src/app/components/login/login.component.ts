@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit{
                 const data = localStorage.getItem('user_token')
                 console.log("localStorage storage",data)
                 localStorage.setItem('user', JSON.stringify(response.user));
-                this.router.navigate(['userHome']);
+                this.router.navigate(['home']);
               }
             } else {
               console.error('localStorage is not available');

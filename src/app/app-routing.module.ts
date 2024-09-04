@@ -9,9 +9,9 @@ import { UserHomeComponent } from './components/user-home/user-home.component';
 
 const routes: Routes = [
   {path:'',component:LoginComponent},
-  {path:'userRegister',component:SignupComponent},
-  {path:'userRegister/verify-otp',component:OtpVerifyComponent},
-  {path:'userHome',component:UserHomeComponent},
+  { path: 'signup', component: SignupComponent },
+  { path: 'verify-otp', component: OtpVerifyComponent },
+  { path: 'home', component: UserHomeComponent },
   {path:'group',component:GroupComponent}
 ];
 
