@@ -40,8 +40,7 @@
               "src/styles.css"
             ],
             "scripts": [],
-            "fileReplacements": [],
-            "es5BrowserSupport": false
+            "fileReplacements": []
           },
           "configurations": {
             "production": {
