@@ -50,6 +50,7 @@ export class OtpVerifyComponent implements OnInit{
         localStorage.removeItem('userData');
       },
       (error:any)=>{
+        console.error(error);
         this.messageService.add({severity:'error',summary:'Error',detail: error.error.error})
       }
 
@@ -69,6 +70,10 @@ export class OtpVerifyComponent implements OnInit{
 
   stopTimer():void{
     clearInterval(this.timer)
+  }
+
+  ngOnDestroy(): void {
+    this.stopTimer();
   }
 
   resendOtp(){

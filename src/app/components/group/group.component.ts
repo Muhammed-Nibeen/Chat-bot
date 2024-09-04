@@ -46,7 +46,7 @@ export class GroupComponent {
 ) { }
   
      ngOnInit(): void {
-      if (typeof localStorage !== 'undefined') {
+      
         const userString = localStorage.getItem('user_id');
         console.log('this is userString',userString);
         
@@ -55,11 +55,7 @@ export class GroupComponent {
             console.log('Sender ID:', this.senderId);  // Debugging: Log the senderId
         } else {
           console.warn('No user_id found in localStorage');
-        }
-      } else {
-        console.error('localStorage is not available.');
-      }
-    
+        } 
 
       this.loadGroups()
       

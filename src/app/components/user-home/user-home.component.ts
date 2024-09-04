@@ -47,11 +47,7 @@ export class UserHomeComponent implements OnInit{
   
 async ngOnInit(): Promise<void> {
   try {
-    if (typeof localStorage !== 'undefined') {
       await this.initializePage();
-    } else {
-      console.error('localStorage is not available.');
-    }
   } catch (error) {
     console.error('Error during initialization:', error);
   }
